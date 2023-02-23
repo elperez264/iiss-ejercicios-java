@@ -51,6 +51,30 @@ de sustitución de Liskov. Devolvería 3 ya que se llamaría a la función sobre
 
 b) En el caso de que haya algún problema en la implementación anterior, proponga una solución alternativa usando composición/delegación que resuelva el problema.
 
+```java
+public class ElementsSet<E> implements HashSet<E> {
+    //Number of attempted elements insertions using the "add" method
+    private int numberOfAddedElements = 0;
+
+    public ElementsSet() {}
+
+    @Override
+    public boolean add(E element) {
+        numberOfAddedElements++; //Counting the element added
+        return super.add(element);
+    } 
+
+    @Override
+    public boolean addAll(Collection<? extends E> elements) {
+        numberOfAddedElements += elements.size(); //Counting the elements added
+        return super.addAll(elements);
+    } 
+
+    public int getNumberOfAddedElements() {
+        return numberOfAddedElements;
+    }
+}
+```
 ### Ejercicio 2
 
 Dado los siguientes fragmentos de código responder a las siguientes preguntas:
