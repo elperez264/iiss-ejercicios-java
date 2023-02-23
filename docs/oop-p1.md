@@ -46,6 +46,8 @@ public class ElementsSet<E> extends HashSet<E> {
 #### Preguntas propuestas
 
 a) ¿Es el uso de la herencia adecuado para la implementación de la clase `ElementsSet`? ¿Qué salida muestra la función `System.out.println` al invocar el método `getNumberOfAddedElements`, 3 o 6?
+>El uso de la herencia en este ejercicio es inadecuado porque se está usando la herencia como manera de estructurar, no se está satisfaciendo el principio
+de sustitución de Liskov. Devolvería 3 ya que se llamaría a la función sobreescrita.
 
 b) En el caso de que haya algún problema en la implementación anterior, proponga una solución alternativa usando composición/delegación que resuelva el problema.
 
