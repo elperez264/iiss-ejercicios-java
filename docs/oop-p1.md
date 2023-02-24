@@ -165,29 +165,53 @@ public abstract class Animal {
         //Number of legs the animal holds
         protected int numberOfLegs = 0;
 
-        public abstract String speak();
-        public abstract boolean eat(String typeOfFeed);
+        
         public abstract int getNumberOfLegs();
 }
+
+public interface canSpeak(){
+    public abstract String speak();
+}
+public interface canEat(){
+    public abstract boolean eat(String typeOfFeed);
+}
     
-public class Cat extends Animal {
-    @Override
+public class Cat extends Animal implement canSpeak, canEat{
     public String speak() {
         return "Meow";
-}
+    }
 
     @Override
-public boolean eat(String typeOfFeed) {
+    public boolean eat(String typeOfFeed) {
         if(typeOfFeed.equals("fish")) {
             return true;
         } else {
             return false;
         }
-}
+    }
 
     @Override
-public int getNumberOfLegs() {
+    public int getNumberOfLegs() {
         return super.numberOfLegs;
     }
 }
+
+public class Dog extends Animal implement canSpeak, canEat{
+    public String speak() {
+        return "Woof";
+    }
+
+    public boolean eat(String typeOfFeed) {
+            if(typeOfFeed.equals("meat")) {
+                return true;
+            } else {
+                return false;
+            }
+    }
+
+        @Override
+    public int getNumberOfLegs() {
+            return super.numberOfLegs;
+        }
+    }
 ```
