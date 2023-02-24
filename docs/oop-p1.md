@@ -159,3 +159,14 @@ a) ¿Es correcto el uso de herencia en la implementación de las clases `Cat` y 
 >El problema que tenemos es que, si en caso futuro, queremos añadir un nuevo comportamiento, como una nueva subclase de Animal, y ésta tiene un comportamiento distinto a los ya definidos, como un tipo *fish*, estaría obligado a implementar el método speak que en este caso no lo necesitamos.
 
 b) En el caso de que el uso de la herencia no sea correcto, proponga una solución alternativa. ¿Cuáles son los beneficios de la solución propuesta frente a la original?
+
+```java
+    public abstract class Animal {
+        //Number of legs the animal holds
+        protected int numberOfLegs = 0;
+
+        public abstract String speak();
+        public abstract boolean eat(String typeOfFeed);
+        public abstract int getNumberOfLegs();
+    }
+```
