@@ -217,8 +217,11 @@ En la siguiente lista se incluyen 10 posibles problemas que pueden encontrarse e
 
 a) ¿Existe algún tipo de problema en la implementación anterior de los que se incluye en la lista anterior? ¿Es necesario aplicar refactoring en este caso? En el caso de que existan problemas, indique cuáles son y qué tipos de problemas piensa que generarían en el futuro si no se aplica el refactoring ahora.
 >- Funciones con nombre que no especifica de forma clara su objetivo
->-Funciones con demasiada responsabilidad (no tienen asignada una única responsabilidad u operación a resolver)
+>
+>- Funciones con demasiada responsabilidad (no tienen asignada una única responsabilidad u operación a resolver)
+>
 >Con esos dos puntos nos encontramos con que la función *getUser* no especifíca en el nombre que se van a devolver los nombres en mayúsculas, a su vez, tener dentro de la misma función la conversión a mayúsculas es una responsabilidad que no le pertenece. El potencial problema que esto nos puede ocasionar es: Encontrarte con los nombres en mayúscula y los quieres tal y como se guardan y ahora no tienes ninguna manera de ponerlos en la forma original.
+
 b) En el caso de que la implementación necesite la aplicación de refactoring, realice los cambios oportunos e indique las mejoras que aporta su implementación respecto a la original.
 >Se va a separar la funcionalidad de extraer en mayúsculas los nombres:
 ```java
