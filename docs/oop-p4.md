@@ -319,6 +319,51 @@ b) En la clase `ShoppingCart.java`:
 - No se puede añadir un producto con un número de unidades negativo o nulo.
 - No se puede eliminar un producto que no existe en el carrito.
 
+
+### `ShoppingCart.java`
+
+```java
+import java.util.HashMap;
+import java.util.Map;
+
+public class ShoppingCart {
+	
+	Map<Product, Integer> shoppingCart;
+	
+	public ShoppingCart() {
+		shoppingCart = new HashMap<Product, Integer>();
+	}
+	
+	public void addProduct(Product product, int number) {
+		
+        	assert number > 0: "Numero de unidades negativo o nulo";
+		if(shoppingCart.keySet().stream().filter(element -> element.getCode() == product.getCode()).count() == 0) {
+			shoppingCart.put(product, number);
+		}
+	}
+	
+	public Product removeProduct(Product product) {
+	
+        	assert shoppingCart.containsKey(product): "No se encuentra el producto en el carrito";
+		if(shoppingCart.containsKey(product)) {
+			shoppingCart.remove(product);
+			return product;
+		}  else {
+			return null;
+		}
+	}
+	
+	public void printShoppingCartContent() {
+		System.out.println("The shopping cart content is: ");
+		
+		for(Product product: shoppingCart.keySet()) {
+			System.out.println(product.getCode() + " - " + product.getName() + " : " + shoppingCart.get(product));
+		}
+		
+	}
+}
+```
+
 ### Ejercicio 2
 
 Dado el código del primer ejercicio, ¿existe algún uso indebido del valor `null`?. En caso afirmativo, reemplazar su uso por el de la clase `Optional` en los casos en los que sea necesario.
