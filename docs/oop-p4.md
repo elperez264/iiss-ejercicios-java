@@ -239,6 +239,7 @@ Además, añadir un mensaje de error descriptivo en cada una de las aserciones q
 #### `Product.java`
 
 ```java
+
 public class Product {
 	
 	private int code;
@@ -249,14 +250,16 @@ public class Product {
 	
 	public Product(int code, String name, String category, double weight, double height) {
 		
+        assert code >= 0 : "El codigo es un numero negativo";
 		this.code = code;
 		
+        assert name != "": "El nombre esta vacio";
 		if(name == null) {
 			this.name = "";
 		} else {
 			this.name = name;
 		}
-		
+		assert name != "": "La categaria esta vacia";
 		if(category == null) {
 			this.category = "";
 		} else {
@@ -264,7 +267,9 @@ public class Product {
 		}
 		
 		this.category = category;
+        assert weight >= 0 : "El peso es un numero negativo";
 		this.weight = weight;
+        assert height >= 0 : "La altura es un numero negativo";
 		this.height = height;
 	}
 	
@@ -304,6 +309,8 @@ public class Product {
 		return this.height;
 	}
 }
+
+
 ```
 
 
