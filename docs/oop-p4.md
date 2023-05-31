@@ -236,6 +236,77 @@ a) En la clase `Product.java`:
 
 Además, añadir un mensaje de error descriptivo en cada una de las aserciones que se hayan implementado.
 
+#### `Product.java`
+
+```java
+public class Product {
+	
+	private int code;
+	private String name;
+	private String category;
+	private double weight;
+	private double height;
+	
+	public Product(int code, String name, String category, double weight, double height) {
+		
+		this.code = code;
+		
+		if(name == null) {
+			this.name = "";
+		} else {
+			this.name = name;
+		}
+		
+		if(category == null) {
+			this.category = "";
+		} else {
+			this.category = category;
+		}
+		
+		this.category = category;
+		this.weight = weight;
+		this.height = height;
+	}
+	
+	public int getCode() {
+		return code;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public String getName() {
+		return this.name;
+	}
+	
+	public void setCategory(String category) {
+		this.category = category;
+	}
+	
+	public String getCategory() {
+		return this.category;
+	}
+	
+	public void setWeight(double weight) {
+		this.weight = weight;
+	}
+	
+	public double getWeight() {
+		return this.weight;
+	}
+	
+	public void setHeight(double height) {
+		this.height = height;
+	}
+	
+	public double getHeight() {
+		return this.height;
+	}
+}
+```
+
+
 b) En la clase `ShoppingCart.java`:
 
 - No se puede añadir un producto con un número de unidades negativo o nulo.
