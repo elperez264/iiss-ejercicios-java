@@ -349,8 +349,91 @@ Responda a las siguientes cuestiones, teniendo en cuenta la lista de los 10 posi
 
 a) El software del ejercicio anterior ha evolucionado añadiendo nueva funcionalidad en su implementación. ¿Existe algún tipo de problema en esta versión de la implementación de los que se incluyen en la lista? ¿Es necesario aplicar refactoring en este caso? En el caso de que existan problemas, indique cuáles son y qué tipos de problemas piensa que generarían en el futuro si no se aplica el refactoring ahora.
 
+>A parte de los problemas antes mencionados que siguen en ésta versión, añadimos el problema muy evidente de la duplicación de código. La poca flexibilidad que presenta es un problema para el momento en el que haya que añadir un nuevo grupo de usuarios que necesitará de muchas líneas más de las necesarias haciendo, además, el código cada vez más difícil de leer.
+>
+> Otro problema que tenemos es el de tener los grupos inicializados de manera individual en el cuerpo de la clase, aunque añadir funcionalidades de poder añadir y modificar los grupos se escapa del ámbito del refactoring, el agruparlos todos en un set no. Gracias a tenerlos en un set, cuando en el futuro haya que añadir un nuevo grupo sólo habrá que añadirlo al set y el resto de operaciones seguirán funcionando igual haya 1, 3 o 100 grupos.
+> 
 b) En el caso de que la implementación necesite la aplicación de refactoring, realice los cambios oportunos e indique las mejoras que aporta su implementación respecto a la original.
+>Los cambios se han hecho teniendo en cuenta los errores antes comentados y suponiendo que tiene sentido tener tres grupos distintos de usuarios, si no nos centramos únicamente en éste ejemplo lo más sensato es poner todos los usuarios en el mismo grupo.
 
+```java
+public class GroupOfUsers {
+    
+    private static Set<Map<String, Integer>> groups = new HashSet<>();
+    
+    public GroupOfUserts(){
+
+      private static Map<String, Integer> usersWithPoints_Group1 =
+      new HashMap<String, Integer>() {{
+        put("User1", 800);
+        put("User2", 550);
+        put("User3", 20);
+        put("User4", 300);
+      }};
+    
+      private static Map<String, Integer> usersWithPoints_Group2 =
+      new HashMap<String, Integer>() {{
+        put("User1", 10);
+        put("User2", 990);
+        put("User3", 760);
+        put("User4", 230);
+      }};
+    
+      private static Map<String, Integer> usersWithPoints_Group3 =
+      new HashMap<String, Integer>() {{
+        put("User1", 1000);
+        put("User2", 200);
+        put("User3", 5);
+        put("User4", 780);
+      }};
+        groups.add(usersWithPoints_Group1);
+        groups.add(usersWithPoints_Group2);
+        groups.add(usersWithPoints_Group3);
+    }
+   
+    
+    public ArrayList<String> sortUsers(ArrayList<String> users){
+    
+        List<String> sortedUsers = new ArrayList<String>();
+        
+        users.entrySet()
+        .stream()
+        .sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
+        .forEachOrdered(x -> sortedUsers.add(x.getKey()));
+        
+        return sortedUsers;
+    }
+    
+    public List<ArrayList<String>> getUsers() {
+      
+        List<ArrayList<String>> users = new ArrayList<ArrayList<String>>();
+        
+        //Sorting users by points
+        for (Map<String, Integer> usersWithPoints : usersWithPointsSet) {
+            users.add(sortUsers(usersWithPoints));
+        }
+        
+        return users;
+    }
+    
+    public List<ArrayList<String>> getCapitalizedUsers(){
+    
+        List<ArrayList<String>> usersList = getUsers();
+        List<ArrayList<String>> usersCapitalizedList = new ArrayList<>();
+        
+        for (ArrayList<String> users : userList) {
+            ArrayList<String> usersCapitalized = new ArrayList<>();
+            for (String user : users) {
+                usersCapitalized.add(user.toUpperCase());
+            }
+            usersCapitalizedList.add(usersCapitalized);
+        }
+        
+        return usersCapitalizedList;
+    }
+
+}
+```
 ## Referencias
 
 [Code Complete]: https://www.amazon.es/Code-Complete-Practical-Costruction-Professional/dp/0735619670
