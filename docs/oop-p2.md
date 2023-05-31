@@ -216,9 +216,45 @@ En la siguiente lista se incluyen 10 posibles problemas que pueden encontrarse e
 - Los cambios dentro de una clase tienden a afectar a otras clases
 
 a) ¿Existe algún tipo de problema en la implementación anterior de los que se incluye en la lista anterior? ¿Es necesario aplicar refactoring en este caso? En el caso de que existan problemas, indique cuáles son y qué tipos de problemas piensa que generarían en el futuro si no se aplica el refactoring ahora.
-
+>- Funciones con nombre que no especifica de forma clara su objetivo
+>-Funciones con demasiada responsabilidad (no tienen asignada una única responsabilidad u operación a resolver)
+>Con esos dos puntos nos encontramos con que la función *getUser* no especifíca en el nombre que se van a devolver los nombres en mayúsculas, a su vez, tener dentro de la misma función la conversión a mayúsculas es una responsabilidad que no le pertenece. El potencial problema que esto nos puede ocasionar es: Encontrarte con los nombres en mayúscula y los quieres tal y como se guardan y ahora no tienes ninguna manera de ponerlos en la forma original.
 b) En el caso de que la implementación necesite la aplicación de refactoring, realice los cambios oportunos e indique las mejoras que aporta su implementación respecto a la original.
-
+>Se va a separar la funcionalidad de extraer en mayúsculas los nombres:
+```java
+public class GroupOfUsers {
+ 
+    private static Map<String, Integer> usersWithPoints =
+      new HashMap<String, Integer>() {{
+        put("User1", 800);
+        put("User2", 550);
+        put("User3", 20);
+        put("User4", 300);
+    }};
+    
+    public List<String> getUsers() {
+        List<String> users = new ArrayList<String>();
+        
+        //Sorting users by points
+        usersWithPoints.entrySet()
+        .stream()
+        .sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
+        .forEachOrdered(x -> users.add(x.getKey()));
+        
+        return users;
+ }
+ 
+     public List<String> getCapitalizedUsers(){
+          List<String> users = getUsers();
+          
+          //Capitalizing the names of the users
+          List<String> usersCapitalized = new ArrayList<String>();
+          users.forEach(x -> usersCapitalized.add(x.toUpperCase()));
+          
+          return usersCapitalized;
+     }
+}
+```
 ### Ejercicio 2
 
 Dado los siguientes fragmentos de código, responder a las siguientes preguntas:
