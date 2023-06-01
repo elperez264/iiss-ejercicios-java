@@ -63,6 +63,32 @@ public class Main {
 
 1. Utilice expresiones *lambda* y el API de *streams* de Java para cambiar la implementación de las operaciones de la interfaz `DataOperations` usando los mecanismos de la programación funcional.
 
+#### `DataOperationsImpl.java`
+
+```java
+import java.util.Arrays;
+
+public class DataOperationsImpl implements DataOperations {
+    @Override
+    public void print(int[] data) {
+        for(int element: data) {
+            System.out.print(element + ", ");
+        }
+        System.out.println();
+    }
+
+    @Override
+    public int[] filterPairs(int[] data) {
+        int index = 0;
+        int[] dataAux = Arrays.stream(data)
+                        .filter(number -> number%2 != 0)
+                        .toArray();
+        return dataAux;
+    }
+}
+
+```
+
 2. Además, haciendo uso de expresiones *labmda* y del API de *streams*, añada a la interfaz de `DataOperations` las siguientes operaciones y su implementación:
 
 - Operación que devuelva la lista de números ordenada descendentemente.
