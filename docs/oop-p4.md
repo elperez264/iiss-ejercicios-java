@@ -429,6 +429,53 @@ public class Product {
 }
 ```
 
+
+### `ShoppingCart.java`
+
+Se cambia product por optional ya que puede tener valores nulos. El carrito no va a tener nulos.
+```java
+import java.util.HashMap;
+import java.util.Map;
+
+public class ShoppingCart {
+	
+	Map<Product, Integer> shoppingCart;
+	
+	public ShoppingCart() {
+		shoppingCart = new HashMap<Product, Integer>();
+	}
+	
+	public void addProduct(Optional<Product> product, int number) {
+		
+		if(product.isPresent())
+			if(shoppingCart.keySet().stream().filter(element -> element.getCode() == product.get().getCode()).count() == 0) {
+				shoppingCart.put(product.get(), number);
+			}
+		}
+	}
+	
+	public Optional<Product> removeProduct(Optional<Product> product) {
+
+		if(shoppingCart.containsKey(product) && product.isPresent()) {
+			shoppingCart.remove(product.get());
+			return product;
+		}  else {
+			return Optional.empty();
+		}
+		
+	}
+	
+	public void printShoppingCartContent() {
+		System.out.println("The shopping cart content is: ");
+		
+		for(Product product: shoppingCart.keySet()) {
+			System.out.println(product.getCode() + " - " + product.getName() + " : " + shoppingCart.get(product));
+		}
+		
+	}
+}
+```
+
 ## Referencias
 
 [API Java]: https://docs.oracle.com/javase/8/docs/technotes/guides/language/assert.html
