@@ -368,6 +368,67 @@ public class ShoppingCart {
 
 Dado el código del primer ejercicio, ¿existe algún uso indebido del valor `null`?. En caso afirmativo, reemplazar su uso por el de la clase `Optional` en los casos en los que sea necesario.
 
+#### `Product.java`
+
+```java
+public class Product {
+	
+	private int code;
+	private String name;
+	private String category;
+	private double weight;
+	private double height;
+	
+	public Product(int code, Optional<String> name, Optional<String> category, double weight, double height) {
+		
+		this.code = code;
+		
+		this.name = name.orElse("");
+		
+		this.category = category.orElse("");
+		
+		this.weight = weight;
+		this.height = height;
+	}
+	
+	public int getCode() {
+		return code;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public String getName() {
+		return this.name;
+	}
+	
+	public void setCategory(String category) {
+		this.category = category;
+	}
+	
+	public String getCategory() {
+		return this.category;
+	}
+	
+	public void setWeight(double weight) {
+		this.weight = weight;
+	}
+	
+	public double getWeight() {
+		return this.weight;
+	}
+	
+	public void setHeight(double height) {
+		this.height = height;
+	}
+	
+	public double getHeight() {
+		return this.height;
+	}
+}
+```
+
 ## Referencias
 
 [API Java]: https://docs.oracle.com/javase/8/docs/technotes/guides/language/assert.html
