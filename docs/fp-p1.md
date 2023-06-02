@@ -67,19 +67,22 @@ public class Main {
 
 ```java
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class DataOperationsImpl implements DataOperations {
     @Override
     public void print(int[] data) {
-        for(int element: data) {
-            System.out.print(element + ", ");
-        }
-        System.out.println();
+        
+        String result = Arrays.stream(data)
+        .mapToObj(String::valueOf)
+        .collect(Collectors.joining(", "));
+        
+        System.out.println(result);
     }
 
     @Override
     public int[] filterPairs(int[] data) {
-        int index = 0;
         int[] dataAux = Arrays.stream(data)
                         .filter(number -> number%2 != 0)
                         .toArray();
