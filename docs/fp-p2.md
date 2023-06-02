@@ -212,6 +212,7 @@ public class AsynchronousAPI {
 	      = new CompletableFuture<>();
 	 
 	    Executors.newCachedThreadPool().submit(() -> {
+	    	completableFuture.complete();
 	    //TO-DO
 	    });
 	 
