@@ -63,12 +63,25 @@ public class Main {
 
 1. Utilice expresiones *lambda* y el API de *streams* de Java para cambiar la implementación de las operaciones de la interfaz `DataOperations` usando los mecanismos de la programación funcional.
 
+#### `DataOperations.java`
+
+```java
+public interface DataOperations {
+    public void print(int[] data);
+    public int[] filterPairs(int[] data);
+    public int[] reverseSort(int[] data);
+    public void multBy10(int[] data);
+    public int sum(int[] data);
+}
+```
+
 #### `DataOperationsImpl.java`
 
 ```java
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.Comparator;
 
 public class DataOperationsImpl implements DataOperations {
     @Override
@@ -87,6 +100,31 @@ public class DataOperationsImpl implements DataOperations {
                         .filter(number -> number%2 != 0)
                         .toArray();
         return dataAux;
+    }
+
+    @Override
+    public int[] reverseSort(int[] data){
+        int[] dataAux = Arrays.stream(data)
+                        .map(num -> num*(-1))
+                        .sorted()
+                        .map(num -> num*(-1))
+                        .toArray();
+
+        return dataAux;
+    }
+
+    @Override
+    public void multBy10(int[] data){
+        int[] result = Arrays.stream(data)
+                        .map(num -> num*10)
+                        .toArray();
+        print(result);
+    }
+
+    @Override
+    public int sum(int[] data){
+        int result = Arrays.stream(data).sum();
+        return result;
     }
 }
 
