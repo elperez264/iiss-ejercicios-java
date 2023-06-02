@@ -204,6 +204,8 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.Arrays;
+import java.util.concurrent.ExecutorService;
 
 public class AsynchronousAPI {
 	
@@ -211,9 +213,11 @@ public class AsynchronousAPI {
 	    CompletableFuture<Integer> completableFuture 
 	      = new CompletableFuture<>();
 	 
-	    Executors.newCachedThreadPool().submit(() -> {
-	    	completableFuture.complete();
-	    //TO-DO
+        ExecutorService executor = Executors.newCachedThreadPool();
+	    executor.submit(() -> {
+	    	int sum = elements.stream().mapToInt(Integer::intValue).sum();
+	        completableFuture.complete(sum);
+            executor.shutdown();
 	    });
 	 
 	    return completableFuture;
@@ -233,8 +237,8 @@ public class Main {
 	
 	public static void main(String args[]) throws InterruptedException, ExecutionException {
 		List<Integer> elements = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
-		Future<Integer> completableFuture = //TO-DO;
-		Integer result = //TO-DO;
+		Future<Integer> completableFuture = AsynchronousAPI.additionAsync(elements);
+		Integer result = completableFuture.get();
 		System.out.println("The result is " + result);
 	}
 }
