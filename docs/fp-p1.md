@@ -200,6 +200,78 @@ public class Main {
 
 1. Utilice cierres (*closures*) para cambiar la implementación de las clases `DataSorterAsc` y `DataSorterDesc` usando los mecanismos de la programación funcional.
 
+#### `DataSorter.java`
+
+```java
+public interface DataSorter {
+    public String[] sort(String[] data);
+}
+```
+
+#### `DataSorterAsc.java`
+
+```java
+import java.util.Comparator;
+public interface DataSorter {
+    public String[] sort(String[] data, Comparator<String> comparator);
+}
+```
+
+#### `DataSorterDesc.java`
+
+```java
+import java.util.Arrays;
+import java.util.Comparator;
+
+public class DataSorterImp implements DataSorter {
+    @Override
+    public String[] sort(String[] data, Comparator<String> comparator) {
+        Arrays.sort(data, comparator);
+        return data;
+    }
+}
+
+```
+
+#### `Main.java`
+
+```java
+import java.util.Arrays;
+import java.util.Comparator;
+
+
+public class Main {
+    public static void main(String args[]) {
+
+        Comparator<String> compAsc = new Comparator<String>() {
+            public int compare(String a, String b) {
+                if (a.compareTo(b) < 0) return -1;
+                if (a.compareTo(b) > 0) return 1;
+                return 0;
+            }
+        };
+
+        Comparator<String> compDes = new Comparator<String>() {
+            public int compare(String a, String b) {
+                if (a.compareTo(b) > 0) return -1;
+                if (a.compareTo(b) < 0) return 1;
+                return 0;
+            }
+        };
+
+        DataSorter dataSorter = new DataSorterImp();
+
+        String [] data = {"H", "S", "I", "V", "E", "W", "M", "P", "L",  "C", "N", "K",
+                 "O", "A", "Q", "R", "J", "D", "G", "T", "U", "X", "B", "Y", "Z", "F"};
+        System.out.println("data = " + Arrays.toString(data));
+        dataSorter.sort(data, compAsc);
+        System.out.println("data (desc) = " + Arrays.toString(data));
+        dataSorter.sort(data, compDes);
+        System.out.println("data (asc) = " + Arrays.toString(data));
+    }
+}
+```
+
 2. Añada un tercer cambio haciendo uso de cierres (*closures*) para realizar la ordenación aleatoria de los elementos, siguiendo el mismo enfoque aplicado con las clases `DataSorterAsc` y `DataSorterDesc` en el apartado anterior.
 
 ## Referencias
