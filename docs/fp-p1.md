@@ -274,6 +274,57 @@ public class Main {
 
 2. Añada un tercer cambio haciendo uso de cierres (*closures*) para realizar la ordenación aleatoria de los elementos, siguiendo el mismo enfoque aplicado con las clases `DataSorterAsc` y `DataSorterDesc` en el apartado anterior.
 
+#### `Main.java`
+
+```java
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Random;
+
+
+public class Main {
+    public static void main(String args[]) {
+
+        Comparator<String> compAsc = new Comparator<String>() {
+            public int compare(String a, String b) {
+                if (a.compareTo(b) < 0) return -1;
+                if (a.compareTo(b) > 0) return 1;
+                return 0;
+            }
+        };
+
+        Comparator<String> compDes = new Comparator<String>() {
+            public int compare(String a, String b) {
+                if (a.compareTo(b) > 0) return -1;
+                if (a.compareTo(b) < 0) return 1;
+                return 0;
+            }
+        };
+        
+        Comparator<String> compRan = new Comparator<String>() {
+            public int compare(String a, String b) {
+                Random rand = new Random();
+                double r = rand.nextDouble();
+                if (r > 0.5) return -1;
+                else return 1;
+            }
+        };
+
+        DataSorter dataSorter = new DataSorterImp();
+
+        String [] data = {"H", "S", "I", "V", "E", "W", "M", "P", "L",  "C", "N", "K",
+                 "O", "A", "Q", "R", "J", "D", "G", "T", "U", "X", "B", "Y", "Z", "F"};
+        System.out.println("data = " + Arrays.toString(data));
+        dataSorter.sort(data, compAsc);
+        System.out.println("data (desc) = " + Arrays.toString(data));
+        dataSorter.sort(data, compDes);
+        System.out.println("data (asc) = " + Arrays.toString(data));
+        dataSorter.sort(data, compRan);
+        System.out.println("data (Ran) = " + Arrays.toString(data));
+    }
+}
+```
+
 ## Referencias
 
 [Java 8 Stream Tutorial]: https://winterbe.com/posts/2014/07/31/java8-stream-tutorial-examples/
