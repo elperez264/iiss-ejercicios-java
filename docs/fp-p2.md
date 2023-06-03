@@ -215,8 +215,20 @@ public class AsynchronousAPI {
 	 
         ExecutorService executor = Executors.newCachedThreadPool();
 	    executor.submit(() -> {
-	    	int sum = elements.stream().mapToInt(Integer::intValue).sum();
+	    	int sum=0;
+			for(int i = 1; i <elements.size(); i++)
+			{
+				sum  = sum + elements.get(i);
+				System.out.println("Adding (" + elements.get(i)+ ")");
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					// Manejo de la excepción, por ejemplo, imprimir un mensaje de error
+					System.err.println("InterruptedException occurred: " + e.getMessage());
+				}
+			}
 	        completableFuture.complete(sum);
+			
             executor.shutdown();
 	    });
 	 
