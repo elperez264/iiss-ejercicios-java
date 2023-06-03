@@ -276,15 +276,62 @@ Dado los siguientes fragmentos de código responder a las siguientes preguntas:
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.Arrays;
+import java.util.concurrent.ExecutorService;
 
 public class AsynchronousAPI {
 	
 	public static CompletableFuture<Integer> additionAsync(List<Integer> elements) throws InterruptedException {
-	 //TO-DO
+	    CompletableFuture<Integer> completableFuture 
+	      = new CompletableFuture<>();
+	 
+        ExecutorService executor = Executors.newCachedThreadPool();
+	    executor.submit(() -> {
+	    	int sum=0;
+			for(int i = 1; i <elements.size(); i++)
+			{
+				sum  = sum + elements.get(i);
+				System.out.println("Adding (" + elements.get(i)+ ")");
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e) {
+					// Manejo de la excepción, por ejemplo, imprimir un mensaje de error
+					System.err.println("InterruptedException occurred: " + e.getMessage());
+				}
+			}
+	        completableFuture.complete(sum);
+			
+            executor.shutdown();
+	    });
+	 
+	    return completableFuture;
 	}
 	
 	public static CompletableFuture<Integer> mutiplicationAsync(List<Integer> elements) throws InterruptedException {
-	//TO-DO
+        CompletableFuture<Integer> completableFuture 
+	      = new CompletableFuture<>();
+	 
+        ExecutorService executor = Executors.newCachedThreadPool();
+	    executor.submit(() -> {
+	    	int sum=0;
+			for(int i = 1; i <elements.size(); i++)
+			{
+				sum  *= elements.get(i);
+				System.out.println("Multiplying (" + elements.get(i)+ ")");
+				try {
+					Thread.sleep(3000);
+				} catch (InterruptedException e) {
+					// Manejo de la excepción, por ejemplo, imprimir un mensaje de error
+					System.err.println("InterruptedException occurred: " + e.getMessage());
+				}
+			}
+	        completableFuture.complete(sum);
+			
+            executor.shutdown();
+	    });
+	 
+	    return completableFuture;
 	}
 
 }
@@ -302,10 +349,14 @@ public class Main {
 	
 	public static void main(String args[]) throws InterruptedException, ExecutionException {
 		List<Integer> elements = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        CompletableFuture<Integer> future1 = AsynchronousAPI.additionAsync(elements);
+
 		List<Integer> elements2 = Arrays.asList(11, 12, 13, 14, 15, 16, 17, 18, 19, 20);
-		CompletableFuture<Void> completableFuture = //TO-DO;
+        CompletableFuture<Integer> future2 = AsynchronousAPI.mutiplicationAsync(elements2);
+
+		CompletableFuture<Void> completableFuture = CompletableFuture.allOf(future1, future2);//TO-DO;
 		
-		completableFuture.get();
+		System.out.println("Resultado: "+future1.get());
 	}
 }
 ```
