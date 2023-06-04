@@ -280,7 +280,11 @@ public class Employee {
 ```java
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.Optional;
 
 public class EmployeeDatabase {
 
@@ -290,46 +294,89 @@ public class EmployeeDatabase {
             new Employee("Employee3", 40),
             new Employee("Employee4", 50));
 
-    public static Employee getEmployeeByName(String name) {
-        Employee result = null;
-        for(Employee e: employees) {
-            if(e.getName().equals(name)) {
-                result = e;
-            }
-        }
+    public static Optional<Employee> getEmployeeByName(String name) {
+
+        Optional<Employee> result = employees.stream()
+                            .filter( e -> e.getName() == name)
+                            .findFirst();
+
         return result;
     }
 
-    public static Employee getEmployeeByNameAndAge(String name, int age) {
-        Employee result = null;
-        for(Employee e: employees) {
-            if(e.getName().equals(name) && e.getAge() == age) {
-                result = e;
-            }
-        }
+    public static Optional<Employee> getEmployeeByNameAndAge(String name, int age) {
+
+        Optional<Employee> result = employees.stream()
+                            .filter( e -> e.getName() == name && e.getAge() == age)
+                            .findFirst();
+
         return result;
     }
 
     public static List<Employee> getEmployeeByAgeOver(int limitAge) {
-        List<Employee> result = new ArrayList<Employee>();
-        for(Employee e: employees) {
-            if(e.getAge() > limitAge) {
-                result.add(e);
-            }
-        }
+        List<Employee> result = employees.stream()
+                                .filter(e -> e.getAge() >30)
+                                .collect(Collectors.toList());
+        
         return result;
     }
 
     public static List<Employee> getEmployeeByAgeUnder(int limitAge) {
-        List<Employee> result = new ArrayList<Employee>();
-        for(Employee e: employees) {
-            if(e.getAge() < limitAge) {
-                result.add(e);
-            }
-        }
+        List<Employee> result = employees.stream()
+                                .filter(e -> e.getAge() <30)
+                                .collect(Collectors.toList());
+        
+        return result;
+    }
+
+    public static Optional<Employee> getOlderEmployee(){
+        return employees.stream()
+                .max(Comparator.comparing(Employee::getAge));
+    }
+
+    public static Optional<Employee> getYoungerEmployee(){
+        return employees.stream()
+                .min(Comparator.comparing(Employee::getAge));
+    }
+
+    public static List<Employee> getRangedEmployee(int minAge, int maxAge){
+        List<Employee> result = employees.stream()
+                                .filter(e -> e.getAge() > minAge && e.getAge() <maxAge)
+                                .collect(Collectors.toList());
+        return result;
+    }
+
+    public static List<Employee> getDescOrderedEmployees(){
+
+        List<Employee> result = employees.stream()
+                                .sorted(Comparator.comparingDouble(Employee::getAge).reversed())
+                                .collect(Collectors.toList());
+
+        return result;
+    }
+
+    public static List<Employee> getAscOrderedEmployees(){
+
+        List<Employee> result = employees.stream()
+                                .sorted(Comparator.comparingDouble(Employee::getAge))
+                                .collect(Collectors.toList());
+
+        return result;
+    }
+
+    public static long numberEmployees(){
+        long result = employees.stream()
+                    .count();
+        return result;
+    }
+
+    public static long countNames(String name){
+        long result = employees.stream()
+                    .filter(e -> e.getName() == name)
+                    .count();
         return result;
     }
 }
+
 ```
 
 #### `Main.java`
@@ -349,6 +396,21 @@ public class Main {
           EmployeeDatabase.getEmployeeByAgeOver(30));
         System.out.println("Employees = " +
           EmployeeDatabase.getEmployeeByAgeUnder(30));
+        System.out.println("Employee = " +
+          EmployeeDatabase.getOlderEmployee());
+        System.out.println("Employee = " +
+          EmployeeDatabase.getYoungerEmployee());
+
+        System.out.println("Employees = " +
+          EmployeeDatabase.getRangedEmployee(30,50));
+        System.out.println("Employees = " +
+          EmployeeDatabase.getAscOrderedEmployees());
+        System.out.println("Employees = " +
+          EmployeeDatabase.getDescOrderedEmployees());
+        System.out.println("Employees = " +
+          EmployeeDatabase.numberEmployees());
+        System.out.println("Employees = " +
+          EmployeeDatabase.countNames("Employee1"));
     }
 }
 ```
