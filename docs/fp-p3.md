@@ -455,8 +455,187 @@ Basándose en el código del ejercicio anterior, implemente una API para una tie
     - Obtener la suma de los precios de los videojuegos agrupados por categoría.
     - Obtener la suma de los precios de los videojuegos agrupados por cateogoría, siempre que el precio obtenido de la suma sea superior a 200€.
 
-3. Implemente además un programa de prueba `Main` que ilustre el uso de las operaciones anteriores.
+```java
+public class Videogame {
 
+    String titulo, categoria;
+    double precio;
+
+    public Videogame(String titulo, String categoria,double precio ) {
+        this.titulo = titulo;
+        this.precio = precio;
+        this.categoria = categoria;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+
+    public double getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(double precio) {
+        this.precio = precio;
+    }
+
+    public String toString() {
+        return "titulo = " + titulo + "- Categoria = " + categoria + "- Precio" + precio;
+    }
+}
+```
+
+```java
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.Optional;
+import java.util.Map;
+
+public class VideogameDatabase {
+
+    private static List<Videogame> videogames = Arrays.asList(
+            new Videogame("Uncharted 4","Aventuras" ,20),
+            new Videogame("Zelda","GOTY" ,70),
+            new Videogame("RDR2", "GOTY", 29),
+            new Videogame("Grantu","Conduccion", 50));
+
+    public static List<Videogame> getVideogames() {
+
+        return videogames;
+    }
+
+    public static List<Videogame> getVideogameBypriceOver(double price) {
+
+        List<Videogame> result = videogames.stream()
+                            .filter( e -> e.getPrecio() > price)
+                            .collect(Collectors.toList());
+
+        return result;
+    }
+
+    public static List<Videogame> getVideogameByPriceUnder(double precio) {
+        List<Videogame> result = videogames.stream()
+                                .filter(e -> e.getPrecio() <precio)
+                                .collect(Collectors.toList());
+        
+        return result;
+    }
+
+    public static List<Videogame> getVideogameByCategory(String Categoria) {
+        List<Videogame> result = videogames.stream()
+                                .filter(e -> e.getCategoria() == Categoria)
+                                .collect(Collectors.toList());
+        
+        return result;
+    }
+
+    public static List<Videogame> getVideogameBypriceOverAsc(double price) {
+
+        List<Videogame> result = videogames.stream()
+                            .filter( e -> e.getPrecio() > price)
+                            .sorted(Comparator.comparingDouble(Videogame::getPrecio))
+                            .collect(Collectors.toList());
+
+        return result;
+    }
+
+    public static List<Videogame> getVideogameBypriceOverDesc(double price) {
+
+        List<Videogame> result = videogames.stream()
+                            .filter( e -> e.getPrecio() > price)
+                            .sorted(Comparator.comparingDouble(Videogame::getPrecio).reversed())
+                            .collect(Collectors.toList());
+
+        return result;
+    }
+
+    public static long getNumberOfCategory(String Categoria) {
+        long result = videogames.stream()
+                                .filter(e -> e.getCategoria() == Categoria)
+                                .count();
+        
+        return result;
+    }
+
+    public static void getSumOfPrice() {
+        Map<String, Double> collect = videogames.stream()
+                        .collect(
+                            Collectors.groupingBy(
+                                Videogame::getCategoria,
+                                Collectors.summingDouble(
+                                    Videogame::getPrecio
+                                )
+                            )
+                        );
+    
+        collect.forEach((categoria, suma) -> System.out.printf("Categoria: %s- suma: %s \n", categoria,suma));
+
+    }
+
+    public static void getSumOfPriceOver(Double Price) {
+        List<Map.Entry<String, Double>> collect = videogames.stream()
+                        .collect(
+                            Collectors.groupingBy(
+                                Videogame::getCategoria,
+                                Collectors.summingDouble(
+                                    Videogame::getPrecio
+                                )
+                            )
+                        ).entrySet()
+                        .stream()
+                        .filter(p -> p.getValue() > 80)
+                        .collect(Collectors.toList());
+                        ;
+    
+        collect.forEach(list -> System.out.printf("Categoria: %s, suma: %s\n",list.getKey(), list.getValue()));
+
+    }
+
+}
+
+```
+3. Implemente además un programa de prueba `Main` que ilustre el uso de las operaciones anteriores.
+```java
+public class Main {
+    public static void main(String args[]) {
+        System.out.println("Videogame = " +
+          VideogameDatabase.getVideogames());
+        System.out.println("Videogame = " +
+          VideogameDatabase.getVideogameBypriceOver(30));
+        System.out.println("Videogame = " +
+          VideogameDatabase.getVideogameByPriceUnder(30));
+        System.out.println("Videogame = " +
+          VideogameDatabase.getVideogameByCategory("Conduccion"));
+        System.out.println("Videogame = " +
+          VideogameDatabase.getVideogameBypriceOverAsc(30));
+        System.out.println("Videogames = " +
+          VideogameDatabase.getVideogameBypriceOverDesc(30));
+        System.out.println("Videogames = " +
+          VideogameDatabase.getNumberOfCategory("GOTY"));
+        
+        VideogameDatabase.getSumOfPrice();
+        VideogameDatabase.getSumOfPriceOver(80.0);
+        
+
+    }
+}
+```
 ## Referencias
 
 [Java 8 Stream Tutorial]: https://winterbe.com/posts/2014/07/31/java8-stream-tutorial-examples/
