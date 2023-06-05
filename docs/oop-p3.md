@@ -95,9 +95,12 @@ public class Main {
 #### Preguntas propuestas
 
 1. ¿Se realiza inyección de dependencias entre las clases anteriores? Si es así, identifique la clase inyectora, el servicio y el cliente.
-2. En el caso de que exista inyección de dependencias, además indique:
+2. Inyección mediante constructor y atributos, inyecta la clase Main la clase DBClient el atributo DBAcces
+3. En el caso de que exista inyección de dependencias, además indique:
 
 - El método de inyección que se realiza (constructor, propiedad o método).
+- DBClient client = new DBClient(dbAccessB);
+- client.setDBAccess(dbAccessA);
 - La/s línea/s donde se realiza la inyección de dependencias.
 
 
